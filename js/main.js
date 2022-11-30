@@ -17,7 +17,7 @@
 
 */
 
-
+let tasksOfArray = []
 let inputTask = document.querySelector("[type='text']");
 let addTask = document.querySelector("[type= 'submit']");
 let tasksDiv = document.querySelector(".tasks");
@@ -27,14 +27,15 @@ let editBtn = document.querySelector(".edit")
 let done = document.querySelector(".toDoDone span")
 let progress = document.querySelector(".progress span")
 
-
 var DoneCount = 0;
 
+function updateProgress() {
+    progress.innerHTML = `Todo On Progress : ${tasksOfArray.length - DoneCount}`
+}
 
 
 
 
-let tasksOfArray = []
 // make onclick function
 addTask.onclick = function (e) {
     e.preventDefault();
@@ -46,6 +47,7 @@ addTask.onclick = function (e) {
             addTaskToForm()
         }
         inputTask.value = ""
+        updateProgress()
 
     } else {
         if (inputTask.value != "") {
@@ -55,6 +57,7 @@ addTask.onclick = function (e) {
         }
         addTask.value = "add";
         inputTask.value = ""
+
     }
 }
 
@@ -133,6 +136,7 @@ if (localStorage.getItem("tasks")) {
 function deleteTaskWith(taskId) {
     tasksOfArray = tasksOfArray.filter((task) => task.id != taskId)
     setTasksToLocalStorage(tasksOfArray)
+    updateProgress()
 }
 
 // click on task Element 
@@ -155,10 +159,12 @@ tasksDiv.addEventListener("click", (e) => {
             DoneCount++;
             done.innerHTML = `Todo Done : ${DoneCount}`
             setTasksToLocalStorage(tasksOfArray)
+            updateProgress()
         } else {
             DoneCount--;
             done.innerHTML = `Todo Done : ${DoneCount}`
             setTasksToLocalStorage(tasksOfArray)
+            updateProgress()
         }
 
     }
@@ -199,7 +205,7 @@ function edit(taskId) {
     currentIndex = index;
 
 }
-
+updateProgress()
 
 /*
 is'n complete >>
